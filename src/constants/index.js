@@ -1,0 +1,2 @@
+export const API_MAX_ATTEMPTS = 3;
+export const INTERVAL_BETWEEN_ATTEMPTS = 1000;
