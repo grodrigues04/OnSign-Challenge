@@ -53,6 +53,19 @@ function mapInterests(interests, friendsMap, users) {
   return interestsRecomendation;
 }
 
+function mapWithId(users, suggestedFriends, suggestedInterests) {
+  for (const user of users) {
+    const id = user.id;
+    console.log(suggestedFriends.get(id));
+    if (suggestedFriends.get(id)) {
+      user["possible_friends"] = getNames(users, suggestedFriends.get(id));
+    }
+    if (suggestedInterests.get(id)) {
+      user["possible_interests"] = suggestedInterests.get(id);
+    }
+  }
+}
+
 export default function mapFriends(api, setUsers) {
   const friends = api.friends;
   const myFriendsMap = new Map();
@@ -74,5 +87,6 @@ export default function mapFriends(api, setUsers) {
     myFriendsMap,
     api.users,
   );
-  return friendsRecomendation(myFriendsMap);
+  mapWithId(api.users, recomendationFriends, interestsRecomendationMap);
+  setUsers(api.users);
 }
