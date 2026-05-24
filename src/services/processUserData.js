@@ -1,11 +1,3 @@
-/*
-const friends = [
-  [10, 20],
-  [10, 25],
-  [20, 25],
-  [25, 15],
-]; */
-
 function friendsRecomendation(friendsMap) {
   const recomendation = new Map();
   for (const [key, lista] of friendsMap) {
@@ -26,7 +18,6 @@ function friendsRecomendation(friendsMap) {
 }
 
 export default function mapFriends(friends) {
-  console.log("friends", friends);
   const myFriendsMap = new Map();
   for (const duo of friends) {
     const myFriend = duo[1];
