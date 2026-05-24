@@ -53,7 +53,7 @@ function mapInterests(interests, friendsMap, users) {
   return interestsRecomendation;
 }
 
-export default function mapFriends(friends) {
+export default function mapFriends(api, setUsers) {
   const myFriendsMap = new Map();
   for (const duo of friends) {
     const myFriend = duo[1];
