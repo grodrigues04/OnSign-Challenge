@@ -1,4 +1,4 @@
-function friendsRecomendation(friendsMap) {
+function mapFriendsofFriends(friendsMap) {
   const recomendation = new Map();
   for (const [key, lista] of friendsMap) {
     recomendation.set(key, new Set());
@@ -13,7 +13,6 @@ function friendsRecomendation(friendsMap) {
       }
     }
   }
-  console.log(recomendation);
   return recomendation;
 }
 
@@ -31,6 +30,6 @@ export default function mapFriends(friends) {
       }
     }
   }
-  console.log(myFriendsMap);
+  let recomendationFriends = mapFriendsofFriends(myFriendsMap);
   return friendsRecomendation(myFriendsMap);
 }
