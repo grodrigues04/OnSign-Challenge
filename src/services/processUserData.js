@@ -54,6 +54,7 @@ function mapInterests(interests, friendsMap, users) {
 }
 
 export default function mapFriends(api, setUsers) {
+  const friends = api.friends;
   const myFriendsMap = new Map();
   for (const duo of friends) {
     const myFriend = duo[1];
