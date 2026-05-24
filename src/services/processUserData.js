@@ -53,6 +53,17 @@ function mapInterests(interests, friendsMap, users) {
   return interestsRecomendation;
 }
 
+function getNames(users, idsSet) {
+  const names = [];
+  for (const user of users) {
+    if (idsSet.size > 0 && idsSet.has(user.id)) {
+      names.push(user.name);
+    }
+  }
+
+  return names;
+}
+
 function mapWithId(users, suggestedFriends, suggestedInterests) {
   for (const user of users) {
     const id = user.id;
