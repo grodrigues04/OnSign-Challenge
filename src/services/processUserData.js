@@ -15,6 +15,43 @@ function mapFriendsofFriends(friendsMap) {
   }
   return recomendation;
 }
+function mapInterests(interests, friendsMap, users) {
+  const interestsMap = new Map();
+  const interestKeys = Object.keys(interests);
+  for (const user of users) {
+    for (const keyInterest of interestKeys) {
+      if (interests[keyInterest].includes(user.id)) {
+        if (!interestsMap.has(user.id, new Set())) {
+          interestsMap.set(user.id, new Set());
+        }
+        interestsMap.get(user.id).add(keyInterest);
+      }
+    }
+  }
+
+  const interestsRecomendation = new Map();
+  for (const [key, interest] of interestsMap) {
+    for (const [me, listOfFriends] of friendsMap) {
+      for (const friend of listOfFriends) {
+        const myListOfInterst = interestsMap.get(key);
+        const liftOfInterestFriend = interestsMap.get(friend);
+        if (!myListOfInterst || !liftOfInterestFriend) {
+          continue;
+        }
+        const diference = liftOfInterestFriend.difference(myListOfInterst);
+        if (diference.size > 0) {
+          if (!interestsRecomendation.has(key)) {
+            interestsRecomendation.set(key, new Set());
+          }
+          for (const item of diference) {
+            interestsRecomendation.get(key).add(item);
+          }
+        }
+      }
+    }
+  }
+  return interestsRecomendation;
+}
 
 export default function mapFriends(friends) {
   const myFriendsMap = new Map();
@@ -31,5 +68,10 @@ export default function mapFriends(friends) {
     }
   }
   let recomendationFriends = mapFriendsofFriends(myFriendsMap);
+  let interestsRecomendationMap = mapInterests(
+    api.interests,
+    myFriendsMap,
+    api.users,
+  );
   return friendsRecomendation(myFriendsMap);
 }
