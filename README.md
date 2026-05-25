@@ -72,8 +72,6 @@ OnSignChallenge /
 │ ├── services/processUserData.jsx
 ```
 
-Talvez o arquivo mais importante da aplicação
-
 Perhaps the most important file in the application, as it contains the core logic responsible for processing friendships and interests.
 
 - `mapFriends()`  
