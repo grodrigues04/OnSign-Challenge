@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Table from "../components/table";
 import useGetUsers from "../hooks/useGetUsers";
-import mapFriends from "../services/processUserData";
+import processAndSetUsers from "../services/processUserData";
 import sortByName from "../services/processUserData";
 export default function DisplayUsers() {
   const { responseApi } = useGetUsers();
@@ -10,8 +10,8 @@ export default function DisplayUsers() {
   const [state, setState] = useState();
   useEffect(() => {
     if (responseApi?.friends?.length) {
-      mapFriends(responseApi, setUsers);
-      setLoading(false);
+      console.log("API Response:", responseApi);
+      processAndSetUsers(responseApi, setUsers);
     }
   }, [responseApi]);
 
