@@ -36,7 +36,7 @@ The challenge did not require any specific development stack or framework. There
 
 ## Code Organization and Reasoning
 
-Even though this is a simple project, organization is essential for future maintenance. Therefore, I applied SOLID principles when structuring the folders and components. The project organization was designed as follows:
+Even though this is a simple project, I tried to structure it in a clean and organized way, keeping possible future maintenance and new implementations in mind. The project organization was designed as follows:
 
 ```txt
 OnSignChallenge /
@@ -62,7 +62,7 @@ OnSignChallenge /
 │ ├── hooks/useGetUsers.jsx
 ```
 
-Following the SOLID principles, especially the Single Responsibility Principle, a dedicated custom hook was created specifically to handle API data fetching. In addition, since the API had an approximate failure rate of 10%, it was necessary to implement a retry mechanism capable of retrying the request up to three times with a one-second interval between attempts.
+To reduce the component’s responsibilities and allow it to focus solely on displaying data, I created a dedicated hook responsible for handling API data fetching. Additionally, since the API had an approximate failure rate of 10%, it was necessary to implement a retry mechanism capable of retrying requests up to three times, with a one-second interval between attempts.
 
 Beyond separating responsibilities, this request flow also required slightly more complex logic. In a scenario where multiple APIs shared the same behavior, using a dedicated hook would make abstraction even more valuable. This approach would allow, for example, passing the endpoint and additional configurations as parameters, making the solution more reusable, maintainable, and scalable.
 
@@ -74,21 +74,19 @@ OnSignChallenge /
 
 Perhaps the most important file in the application, as it contains the core logic responsible for processing friendships and interests.
 
-- `mapFriends()`  
-  Responsible for performing the initial friendship mapping between users.
+- `processAndSetUsers()`  
+  This is the main function exported to the components, responsible for generating the suggested friends and interests lists.
 
-- `mapFriendsOfFriends()`  
-  Responsible for generating friend recommendations for each user based on mutual connections.
+Initially, I developed an algorithm that repeatedly traversed the friends array using nested loops. The logic consisted of searching for connections through iterative methods, comparing differences between collections, and storing the results in a Set. Although the solution worked correctly, a larger dataset returned by the API would quickly lead to noticeable performance bottlenecks. In addition, I was relying on the difference() operation to compare sets, but later discovered that it is a relatively new feature and is still not supported by some browsers.
 
-- `mapInterests()`  
-  Responsible for mapping the interests associated with each user.
+To address both performance and scalability concerns, I completely refactored the data transformation logic by approaching the problem as a graph traversal and leveraging hash maps for efficient lookups.
 
-- `getNames()`  
-  Responsible for mapping each user ID to its corresponding name.
+At the root of the project, I left the oldServices file, which was not used by the frontend but was essential for the initial reasoning behind a possible implementation. Once the solution was completed, it became clear that the approach could be significantly improved, especially when observing sections of the code with O(n³) time complexity, which, as mentioned previously, could lead to noticeable application slowdowns or freezes when handling larger API datasets.
 
-- `mapWithId()`  
-  Responsible for attaching friend and interest suggestions to the final user object based on each user's ID.
+## Deploy
+
+Project deployment was neither a requirement nor a suggestion, but I decided to do it anyway. The application is available at: [https://on-sign-challenge.vercel.app/](https://on-sign-challenge.vercel.app/)
 
 ### Observations:
 
-At the beginning of the challenge, I had some doubts regarding how friendship relationships should be interpreted. The PDF stated that _"The array of 'friends' represents friendship connections between users"_, which suggested that the relationships were bidirectional. However, it also mentioned that _"Each pair is a connection from the 'id' in the first value to the 'id' in the second value"_, which seemed to indicate a unidirectional relationship.
+At the beginning of the challenge, I had some doubts regarding how friendship relationships should be interpreted. The PDF stated that _"The array of 'friends' represents friendship connections between users"_, which suggested that the relationships were bidirectional. However, it also mentioned that _"Each pair is a connection from the 'id' in the first value to the 'id' in the second value"_, which seemed to indicate a unidirectional relationship.Considering the provided example, the user Charlie was not recommended to Bob. Therefore, I assumed that, in this case, the relationship should be treated as unilateral.
