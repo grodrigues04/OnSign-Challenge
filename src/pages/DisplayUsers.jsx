@@ -10,8 +10,8 @@ export default function DisplayUsers() {
   const [state, setState] = useState();
   useEffect(() => {
     if (responseApi?.friends?.length) {
-      console.log("API Response:", responseApi);
       processAndSetUsers(responseApi, setUsers);
+      setLoading(false);
     }
   }, [responseApi]);
 

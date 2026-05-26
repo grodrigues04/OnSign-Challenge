@@ -16,8 +16,8 @@ export default function Table({ users, loading, setUsers }) {
   }
 
   return (
-    <div class="d-flex justify-content-center align-items-center vh-100">
-      <div class="border p-4 w-100 h-150">
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <div className="border p-4 w-100 h-150">
         <table className="table table-primary">
           <thead>
             <tr>
