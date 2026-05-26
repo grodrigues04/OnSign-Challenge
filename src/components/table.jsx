@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 export default function Table({ users, loading, setUsers }) {
+  console.log("Rendering Table with users:", users);
   const [ascending, setAscending] = useState(true);
 
   function sortByName() {
@@ -36,14 +37,14 @@ export default function Table({ users, loading, setUsers }) {
                     <td>{user.name}</td>
 
                     <td>
-                      {user.possible_friends
-                        ? [...user.possible_friends].join(", ")
+                      {user.suggestedFriends
+                        ? [...user.suggestedFriends].join(", ")
                         : "-"}
                     </td>
 
                     <td>
-                      {user.possible_interests
-                        ? [...user.possible_interests].join(", ")
+                      {user.suggestedInterests
+                        ? [...user.suggestedInterests].join(", ")
                         : "-"}
                     </td>
                   </tr>
